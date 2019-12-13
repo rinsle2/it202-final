@@ -1,0 +1,10 @@
+{
+  "name": "School Searcher",
+  "short_name": "School",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "navy",
+  "description": "An app to Schools by Type",
+  "icons": [{}],
+  "related_applications": []
+}
