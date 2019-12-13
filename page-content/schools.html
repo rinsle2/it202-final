@@ -58,7 +58,6 @@
 
   
   let getSchools = () => {
-    var count = 0;
     var sch = document.getElementById("schoolType")
     var val = sch.options[sch.selectedIndex].value
     let url = endpoint + "$limit=" + limit
@@ -72,8 +71,8 @@
 
         let dividerClone = divider.clone();
         var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(v.school_latitude, v.school_longitude)
-          map: map
+          position: new google.maps.LatLng(v.school_latitude, v.school_longitude),
+          map: map,
           title: v.long_name
         })
 
@@ -84,7 +83,6 @@
         // set values
         clone.find(".mdc-list-item__primary-text").text(v.long_name)
         clone.find(".mdc-list-item__secondary-text").text(v.address)
-        count++
         // append to list
         $("ul#listSchools").append(dividerClone);
         
@@ -93,7 +91,6 @@
 
       });
     });
-    $("#resultCount").text(count);
   }
 
 
