@@ -2,7 +2,17 @@
 
 
 <!-- add a select control to let users choose a school category;  you can hard-code the options or dynamically populate them from the primaryCategories variable below-->
-
+<select id="schoolType">
+  <option value="&is_elementary_school=true">
+    Elementary School
+  </option>
+  <option value="&is_middle_school=true">
+    Middle School
+  </option>
+  <option value="&is_high_school=true">
+    High School
+  </option>
+</select>
 
 <button id="searchSchools" class="mdc-button mdc-button--raised">
   <div class="mdc-button__ripple"></div>
@@ -46,12 +56,14 @@
   });
 
 
-
+  
   let getSchools = () => {
-    let url = endpoint + "$limit=" + limit;
-
-    let divider = $("ul#listSchools .mdc-list-divider.template");
-
+    var count = 0;
+    var sch = document.getElementById("schoolType")
+    var val = sch.options[sch.selectedIndex].value
+    let url = endpoint + "$limit=" + limit
+    let divider = $("ul#listSchools .mdc-list-divider.template")
+    url = url + val
     $.get(url, (response) => {
       console.log(response);
       $.each(response, (i,v) => {
@@ -59,6 +71,11 @@
         let clone = $("ul#listSchools .mdc-list-item.template").clone();
 
         let dividerClone = divider.clone();
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(v.school_latitude, v.school_longitude)
+          map: map
+          title: v.long_name
+        })
 
         // remove template class
         clone.removeClass("template");
@@ -66,8 +83,8 @@
 
         // set values
         clone.find(".mdc-list-item__primary-text").text(v.long_name)
-
-
+        clone.find(".mdc-list-item__secondary-text").text(v.address)
+        count++
         // append to list
         $("ul#listSchools").append(dividerClone);
         
@@ -76,6 +93,7 @@
 
       });
     });
+    $("#resultCount").text(count);
   }
 
 
